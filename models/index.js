@@ -1,7 +1,20 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  schoolId: {
+    type: Number,
+    required: true,
+  },
   email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -10,8 +23,48 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  drug: {
+    type: String,
+    enum: [
+      "alcohol",
+      "heroin",
+      "marijuana",
+      "amphetamines",
+      "prescription painkillers",
+      "caffeine",
+    ],
+    required: true,
+  },
 });
+
+const appointmentSchema = new mongoose.Schema({
+  therapistId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Therapist",
+    required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  dateTime: {
+    type: Date,
+    required: true,
+  },
+  details: {
+    type: String,
+    default: "",
+  },
+  status: {
+    type: String,
+    enum: ["pending", "accepted", "rejected"],
+    default: "pending",
+  },
+});
+
+const Appointment = mongoose.model("Appointment", appointmentSchema);
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+module.exports = { User, Appointment };
