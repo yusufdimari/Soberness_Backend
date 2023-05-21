@@ -7,7 +7,7 @@ router.post("/book-appointment", async (req, res) => {
   try {
     const { therapistId, dateTime, details, userId, duration } = req.body;
 
-    const therapist = await Therapist.find({ therapistId });
+    const therapist = await Therapist.find({ _id: therapistId });
     const user = await User.find({ _id: userId });
     // Create a new appointment
     if (!user) return res.status(404).json("Not a user");
@@ -20,7 +20,6 @@ router.post("/book-appointment", async (req, res) => {
       details,
       duration,
     });
-
     await appointment.save();
 
     res.status(201).json({ message: "Appointment booked successfully" });
@@ -66,7 +65,13 @@ router.get("/user/:id", async (req, res) => {
 
 // Get Therapist Sessions API
 router.get("/therapist/:id", async (req, res) => {
+  const { id } = req.params;
   try {
+    const therapist = await Therapist.find({ _id: id });
+    if (!therapist)
+      return res
+        .status(404)
+        .json({ status: "ERR", message: "Not a therapist" });
     // Get all sessions for the user
     const sessions = await Appointment.populate()
       .find({
@@ -76,7 +81,7 @@ router.get("/therapist/:id", async (req, res) => {
 
     res.status(200).json({ sessions });
   } catch (error) {
-    res.status(500).json({ message: "Failed to retrieve user sessions" });
+    res.status(500).json({ message: "Failed to retrieve Therapist sessions" });
   }
 });
 
