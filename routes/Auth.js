@@ -104,7 +104,7 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/users", async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json({
