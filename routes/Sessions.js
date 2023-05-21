@@ -12,6 +12,7 @@ router.post("/book-appointment", async (req, res) => {
     // Create a new appointment
     if (!user) return res.status(404).json("Not a user");
     if (!therapist) return res.status(404).json("Not a Therapist");
+    console.log(therapist, user);
     const appointment = new Appointment({
       therapistId,
       userId,
