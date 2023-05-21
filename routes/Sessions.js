@@ -96,14 +96,11 @@ router.post("/session/accept-deny/:sessionId", async (req, res) => {
   try {
     const { sessionId } = req.params;
     const { status, therapistId } = req.body;
-    const therapist = await Therapist.find({ _id: id });
-    if (therapist.length < 1)
-      return res
-        .status(404)
-        .json({ status: "ERR", message: "Not a therapist" });
-
     // Find the session by ID
-    const session = await Appointment.findById(sessionId);
+    const session = await Appointment.findOne({
+      _id: sessionId,
+      therapistId: therapistId,
+    });
     if (!session) {
       return res.status(404).json({ message: "Session not found" });
     }
