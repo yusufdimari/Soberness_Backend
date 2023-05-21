@@ -4,7 +4,7 @@ const { Appointment } = require("../models/index");
 
 router.post("/book-appointment", async (req, res) => {
   try {
-    const { therapistId, dateTime, details, userId } = req.body;
+    const { therapistId, dateTime, details, userId, duration } = req.body;
 
     // Create a new appointment
     const appointment = new Appointment({
@@ -12,6 +12,7 @@ router.post("/book-appointment", async (req, res) => {
       userId,
       dateTime,
       details,
+      duration,
     });
 
     await appointment.save();
@@ -42,12 +43,28 @@ router.get("/", async (req, res) => {
 });
 
 // Get User Sessions API
-router.get("/:id", async (req, res) => {
+router.get("/user/:id", async (req, res) => {
   try {
     // Get all sessions for the user
     const sessions = await Appointment.populate()
       .find({
         userId: req.params.id,
+      })
+      .populate();
+
+    res.status(200).json({ sessions });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to retrieve user sessions" });
+  }
+});
+
+// Get Therapist Sessions API
+router.get("/therapist/:id", async (req, res) => {
+  try {
+    // Get all sessions for the user
+    const sessions = await Appointment.populate()
+      .find({
+        therapistId: req.params.id,
       })
       .populate();
 

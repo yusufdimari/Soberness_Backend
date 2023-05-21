@@ -48,3 +48,5 @@ Access a protected route that requires authentication.
 •	200 OK: Access to the protected route granted.
 •	401 Unauthorized: Invalid or missing token.
 
+mongodb username: aminaAdah
+mongodb password: Amina@Adah
