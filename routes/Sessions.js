@@ -10,9 +10,9 @@ router.post("/book-appointment", async (req, res) => {
     const therapist = await Therapist.find({ _id: therapistId });
     const user = await User.find({ _id: userId });
     // Create a new appointment
-    if (!user) return res.status(404).json("Not a user");
-    if (!therapist) return res.status(404).json("Not a Therapist");
-    console.log(therapist, user);
+    if (user.length < 1) return res.status(404).json("user not found");
+    if (therapist.length < 1)
+      return res.status(404).json("Therapist not found");
     const appointment = new Appointment({
       therapistId,
       userId,
@@ -49,7 +49,13 @@ router.get("/", async (req, res) => {
 
 // Get User Sessions API
 router.get("/user/:id", async (req, res) => {
+  const { id } = req.params;
   try {
+    const user = await User.find({ _id: id });
+    if (user.length < 1)
+      return res
+        .status(404)
+        .json({ status: "ERR", message: "Not a therapist" });
     // Get all sessions for the user
     const sessions = await Appointment.populate()
       .find({
@@ -68,7 +74,7 @@ router.get("/therapist/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const therapist = await Therapist.find({ _id: id });
-    if (!therapist)
+    if (therapist.length < 1)
       return res
         .status(404)
         .json({ status: "ERR", message: "Not a therapist" });
