@@ -59,7 +59,7 @@ router.get("/user/:id", async (req, res) => {
     // Get all sessions for the user
     const sessions = await Appointment.populate()
       .find({
-        userId: req.params.id,
+        _id: id,
       })
       .populate();
 
@@ -81,7 +81,7 @@ router.get("/therapist/:id", async (req, res) => {
     // Get all sessions for the user
     const sessions = await Appointment.populate()
       .find({
-        therapistId: req.params.id,
+        _id: id,
       })
       .populate();
 
