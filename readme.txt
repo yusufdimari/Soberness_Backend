@@ -49,4 +49,4 @@ Access a protected route that requires authentication.
 •	401 Unauthorized: Invalid or missing token.
 
 mongodb username: aminaAdah
-mongodb password: Amina@Adah
+mongodb password: AminaAdahDB
