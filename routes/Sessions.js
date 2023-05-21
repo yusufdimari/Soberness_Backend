@@ -1,12 +1,17 @@
 const express = require("express");
+const Therapist = require("../models/admin");
 const router = express.Router();
-const { Appointment } = require("../models/index");
+const { Appointment, User } = require("../models/index");
 
 router.post("/book-appointment", async (req, res) => {
   try {
     const { therapistId, dateTime, details, userId, duration } = req.body;
 
+    const therapist = await Therapist.find({ therapistId });
+    const user = await User.find({ _id: userId });
     // Create a new appointment
+    if (!user) return res.status(404).json("Not a user");
+    if (!therapist) return res.status(404).json("Not a Therapist");
     const appointment = new Appointment({
       therapistId,
       userId,
