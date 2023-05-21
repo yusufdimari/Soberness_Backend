@@ -91,4 +91,33 @@ router.get("/therapist/:id", async (req, res) => {
   }
 });
 
+//Accept or Deny Session request by Therapist
+router.post("/session/accept-deny/:sessionId", async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const { status, therapistId } = req.body;
+    const therapist = await Therapist.find({ _id: id });
+    if (therapist.length < 1)
+      return res
+        .status(404)
+        .json({ status: "ERR", message: "Not a therapist" });
+
+    // Find the session by ID
+    const session = await Appointment.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    // Update the session status
+    session.status = status;
+    await session.save();
+
+    res
+      .status(200)
+      .json({ message: "Session status updated successfully", session });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to update session status", error });
+  }
+});
+
 module.exports = router;
