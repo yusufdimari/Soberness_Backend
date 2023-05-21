@@ -104,4 +104,16 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json({
+      status: "OK",
+      message: users,
+    });
+  } catch (error) {
+    res.status(500).json({ status: "ERR", message: "Internal server Error" });
+  }
+});
+
 module.exports = router;
