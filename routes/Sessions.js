@@ -53,9 +53,7 @@ router.get("/user/:id", async (req, res) => {
   try {
     const user = await User.find({ _id: id });
     if (user.length < 1)
-      return res
-        .status(404)
-        .json({ status: "ERR", message: "Not a therapist" });
+      return res.status(404).json({ status: "ERR", message: "Not a user" });
     // Get all sessions for the user
     const sessions = await Appointment.find({
       userId: id,

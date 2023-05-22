@@ -6,6 +6,7 @@ const cors = require("cors");
 const Auth = require("./routes/Auth");
 const Admin = require("./routes/Admin/Auth");
 const Sessions = require("./routes/Sessions");
+const Sober = require("./routes/Sober");
 
 const app = express();
 config();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/Soberness/api", Auth);
 app.use("/Soberness/api/admin/auth", Admin);
 app.use("/Soberness/api/sessions", Sessions);
+app.use("/Soberness/api/Sober", Sober);
 
 mongoose
   .connect(process.env.MONGO_URI)

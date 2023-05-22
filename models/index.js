@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema({
     ],
     required: true,
   },
+  soberDays: {
+    type: Number,
+    default: 0,
+  },
+  notSober: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
 const appointmentSchema = new mongoose.Schema({
