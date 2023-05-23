@@ -15,7 +15,7 @@ app.use(express.json());
 app.use("/Soberness/api", Auth);
 app.use("/Soberness/api/admin/auth", Admin);
 app.use("/Soberness/api/sessions", Sessions);
-app.use("/Soberness/api/Sober", Sober);
+app.use("/Soberness/api/sober", Sober);
 
 mongoose
   .connect(process.env.MONGO_URI)
