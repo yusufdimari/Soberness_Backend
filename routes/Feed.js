@@ -93,7 +93,7 @@ router.post("/:postId/comments", async (req, res) => {
 router.get("/:postId/comments", async (req, res) => {
   try {
     const postId = req.params.postId;
-    const comments = await Comment.find({ _id: postId });
+    const comments = await Comment.find({ postId });
 
     res.status(200).json({ status: "OK", message: comments });
   } catch (error) {
