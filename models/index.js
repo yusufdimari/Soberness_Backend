@@ -75,8 +75,61 @@ const appointmentSchema = new mongoose.Schema({
   },
 });
 
+const postSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    dislikes: {
+      type: Number,
+      default: 0,
+    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const commentSchema = new mongoose.Schema(
+  {
+    content: {
+      type: String,
+      required: true,
+    },
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Post = mongoose.model("Post", postSchema);
+const User = mongoose.model("User", userSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 const Appointment = mongoose.model("Appointment", appointmentSchema);
 
-const User = mongoose.model("User", userSchema);
-
-module.exports = { User, Appointment };
+module.exports = { User, Appointment, Post, Comment };
