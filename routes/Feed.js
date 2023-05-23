@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
 router.get("/:postId", async (req, res) => {
   try {
     const postId = req.params.postId;
-    const post = await Post.findById(postId);
+    const post = await Post.find({ _id: postId });
 
     if (!post) {
       return res.status(404).json({ status: "ERR", message: "Post not found" });
@@ -59,9 +59,13 @@ router.patch("/:postId/likes", async (req, res) => {
       return res.status(400).json({ message: "Invalid action" });
     }
 
-    const updatedPost = await Post.findByIdAndUpdate(postId, updateField, {
-      new: true,
-    });
+    const updatedPost = await Post.findByIdAndUpdate(
+      { _id: postId },
+      updateField,
+      {
+        new: true,
+      }
+    );
 
     res.status(200).json({ status: "OK", message: updatedPost });
   } catch (error) {
@@ -89,7 +93,7 @@ router.post("/posts/:postId/comments", async (req, res) => {
 router.get("/posts/:postId/comments", async (req, res) => {
   try {
     const postId = req.params.postId;
-    const comments = await Comment.find({ postId });
+    const comments = await Comment.find({ _id: postId });
 
     res.status(200).json({ status: "OK", message: comments });
   } catch (error) {
