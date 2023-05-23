@@ -74,7 +74,7 @@ router.patch("/:postId/likes", async (req, res) => {
 });
 
 // Create a new comment
-router.post("/posts/:postId/comments", async (req, res) => {
+router.post("/:postId/comments", async (req, res) => {
   try {
     const postId = req.params.postId;
     const { content, userId } = req.body;
@@ -90,7 +90,7 @@ router.post("/posts/:postId/comments", async (req, res) => {
 });
 
 // Get all comments for a post
-router.get("/posts/:postId/comments", async (req, res) => {
+router.get("/:postId/comments", async (req, res) => {
   try {
     const postId = req.params.postId;
     const comments = await Comment.find({ _id: postId });
