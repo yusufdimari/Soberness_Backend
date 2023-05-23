@@ -77,6 +77,10 @@ const appointmentSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     title: {
       type: String,
       required: true,

@@ -5,10 +5,10 @@ const router = express.Router();
 // Create a new post
 router.post("/", async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, userId } = req.body;
 
     // Create the post
-    const post = new Post({ title, content });
+    const post = new Post({ userId, title, content });
     await post.save();
 
     res.status(201).json(post);
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
   try {
     const posts = await Post.find();
 
-    res.status(200).json(posts);
+    res.status(200).json({ status: "OK", message: posts });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch posts", error });
   }
@@ -35,10 +35,10 @@ router.get("/:postId", async (req, res) => {
     const post = await Post.findById(postId);
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ status: "ERR", message: "Post not found" });
     }
 
-    res.status(200).json(post);
+    res.status(200).json({ status: "OK", message: post });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch post", error });
   }
@@ -63,7 +63,7 @@ router.patch("/:postId/likes", async (req, res) => {
       new: true,
     });
 
-    res.status(200).json(updatedPost);
+    res.status(200).json({ status: "OK", message: updatedPost });
   } catch (error) {
     res.status(500).json({ message: "Failed to like post", error });
   }
@@ -79,7 +79,7 @@ router.post("/posts/:postId/comments", async (req, res) => {
     const comment = new Comment({ content, postId, userId });
     await comment.save();
 
-    res.status(201).json(comment);
+    res.status(201).json({ status: "OK", message: comment });
   } catch (error) {
     res.status(500).json({ message: "Failed to create comment", error });
   }
@@ -91,7 +91,7 @@ router.get("/posts/:postId/comments", async (req, res) => {
     const postId = req.params.postId;
     const comments = await Comment.find({ postId });
 
-    res.status(200).json(comments);
+    res.status(200).json({ status: "OK", message: comments });
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch comments", error });
   }
