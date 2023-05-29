@@ -57,7 +57,9 @@ router.get("/user/:id", async (req, res) => {
     // Get all sessions for the user
     const sessions = await Appointment.find({
       userId: id,
-    }).populate("userId");
+    })
+      .populate("userId")
+      .populate("therapistId");
 
     res.status(200).json({ sessions });
   } catch (error) {
@@ -77,7 +79,9 @@ router.get("/therapist/:id", async (req, res) => {
     // Get all sessions for the user
     const sessions = await Appointment.find({
       therapistId: id,
-    }).populate("therapistId");
+    })
+      .populate("therapistId")
+      .populate("userId");
 
     res.status(200).json({ sessions });
   } catch (error) {
