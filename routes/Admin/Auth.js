@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
 
     // Generate and send a JWT token
     const token = jwt.sign({ therapistId: therapist._id }, "dev_deems");
-    res.status(200).json({ token });
+    res.status(200).json({ token, therapist });
   } catch (error) {
     res.status(500).json({ message: "Login failed" });
   }
