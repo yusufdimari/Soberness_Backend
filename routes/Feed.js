@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
 // Get all posts
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("userId");
 
     res.status(200).json({ status: "OK", message: posts });
   } catch (error) {
